@@ -16,6 +16,7 @@ namespace NASP_1_WPF
         public MainWindow()
         {
             InitializeComponent();
+            AVLradioButton.IsChecked = true;
         }
 
         private void FilePickerButton_Click(object sender, RoutedEventArgs e)
