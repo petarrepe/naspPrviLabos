@@ -1,0 +1,14 @@
+﻿<Window x:Class="NASP_1_WPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NASP_1_WPF"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <Button x:Name="FilePickerButton" Content="Odaberi datoteku" HorizontalAlignment="Left" Margin="10,48,0,0" VerticalAlignment="Top" Width="Auto" Click="FilePickerButton_Click"/>
+        <TextBlock x:Name="PathToFiletextBlock" HorizontalAlignment="Left" Margin="10,96,0,0" TextWrapping="Wrap" Text="Lokacija datoteke:" VerticalAlignment="Top"/>
+
+    </Grid>
+</Window>
