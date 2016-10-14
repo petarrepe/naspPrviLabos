@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows;
+using System.Linq;
 
 namespace NASP_1_WPF
 {
@@ -9,6 +11,7 @@ namespace NASP_1_WPF
     {
         private string filePath;
         private string fileContent;
+        private List<int> numbersFromFile = new List<int>();
         
         public MainWindow()
         {
@@ -17,10 +20,10 @@ namespace NASP_1_WPF
 
         private void FilePickerButton_Click(object sender, RoutedEventArgs e)
         {
+            int tryParseOut;
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
 
             dlg.DefaultExt = ".txt";
-
 
             Nullable<bool> result = dlg.ShowDialog();
 
@@ -32,17 +35,32 @@ namespace NASP_1_WPF
             }
 
             try
-            {   // Open the text file using a stream reader.
+            { 
                 using (StreamReader sr = new StreamReader(filePath))
                 {
-                    // Read the stream to a string, and write the string to the console.
+
                     fileContent = sr.ReadToEnd();
+
+                    numbersFromFile = fileContent.Split(',', ' ', '\n', '\r')
+                        .Where(x=> int.TryParse(x, out tryParseOut) == true)
+                        .Select(x=> int.Parse(x))
+                        .ToList();
                 }
             }
             catch (Exception ex)
             {
-
+                MessageBox.Show(ex.Message);
             }
+        }
+
+        private void RadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            AVLradioButton.IsChecked = false;
+        }
+
+        private void AVLradioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            RBRadioButton.IsChecked = false;
         }
     }
 }

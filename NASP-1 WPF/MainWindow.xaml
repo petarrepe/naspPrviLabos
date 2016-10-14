@@ -9,6 +9,8 @@
     <Grid>
         <Button x:Name="FilePickerButton" Content="Odaberi datoteku" HorizontalAlignment="Left" Margin="10,48,0,0" VerticalAlignment="Top" Width="Auto" Click="FilePickerButton_Click"/>
         <TextBlock x:Name="PathToFiletextBlock" HorizontalAlignment="Left" Margin="10,96,0,0" TextWrapping="Wrap" Text="Lokacija datoteke:" VerticalAlignment="Top"/>
+        <RadioButton x:Name="AVLradioButton" Content="AVL tree" HorizontalAlignment="Left" Margin="32,156,0,0" VerticalAlignment="Top" Checked="AVLradioButton_Checked"/>
+        <RadioButton x:Name="RBRadioButton" Content="Red black tree" HorizontalAlignment="Left" Margin="32,176,0,0" VerticalAlignment="Top" Checked="RadioButton_Checked"/>
 
     </Grid>
 </Window>
