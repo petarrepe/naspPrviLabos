@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows;
 using System.Linq;
 
+
 namespace NASP_1_WPF
 {
 
@@ -12,7 +13,8 @@ namespace NASP_1_WPF
         private string filePath;
         private string fileContent;
         private List<int> numbersFromFile = new List<int>();
-        
+        AVLLib.AVLTree<int> AVLtree;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -52,6 +54,13 @@ namespace NASP_1_WPF
             {
                 MessageBox.Show(ex.Message);
             }
+
+            AVLtree = new AVLLib.AVLTree<int>(numbersFromFile[0]);
+            for (int i = 1; i < numbersFromFile.Count;i++)
+            {
+                AVLtree.Insert(numbersFromFile[i]);
+            }
+
 
             ToInsertTextBox.Visibility = Visibility.Visible;
             AdditionalTextTextBlock.Visibility = Visibility.Visible;

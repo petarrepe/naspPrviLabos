@@ -4,7 +4,7 @@
     {
         public Node(T data)
         {
-            data = this.data;
+            this.data = data;
         }
         public Node()
         {

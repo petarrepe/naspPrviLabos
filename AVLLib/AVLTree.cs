@@ -4,6 +4,11 @@
     {
         private Node<T> root = new Node<T>();
 
+        public AVLTree(T data)
+        {
+            root.data = data;
+        }
+
         //parent = root , child = pivot
         internal void RightRotate(Node<T> child, Node<T> parent)
         {
@@ -17,19 +22,22 @@
             child.leftChild = parent;
         }
 
-        internal void Insert (T data) 
+        public void Insert (T data) 
         {
             Node<T> parentNode = FindParentOfNewNode(data);
+            if (parentNode == null) return; 
 
             if (data.CompareTo(parentNode.data) > 0) parentNode.rightChild = new Node<T>(data);
             else parentNode.leftChild = new Node<T>(data);
 
+            //sve dobro do ovog dijela
+            int balance = CalculateBalanceFactor(parentNode);
             //TODO : balansiranje
         }
 
         private Node<T> FindParentOfNewNode(T data)
         {
-            Node<T> parentNode = root;
+            Node<T> parentNode = null;
             Node<T> node = root;
 
             while (node != null)
@@ -54,12 +62,10 @@
         {
             if (node == null) return 0;
 
-            //int balanceFactor=0;
+            int rightSubtreeHeight = CalculateBalanceFactor(node.rightChild)+1;
+            int leftSubtreeHeight = CalculateBalanceFactor(node.leftChild)-1;
 
-            int rightSubtreeWeight = CalculateBalanceFactor(node.rightChild)+1;
-            int leftSubtreeWeight = CalculateBalanceFactor(node.leftChild)-1;
-
-            return rightSubtreeWeight - leftSubtreeWeight;
+            return rightSubtreeHeight - leftSubtreeHeight;
         }
 
         public override string ToString()
