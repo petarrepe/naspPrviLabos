@@ -36,15 +36,15 @@ namespace NASP_1_WPF
             }
 
             try
-            { 
+            {
                 using (StreamReader sr = new StreamReader(filePath))
                 {
 
                     fileContent = sr.ReadToEnd();
 
                     numbersFromFile = fileContent.Split(',', ' ', '\n', '\r')
-                        .Where(x=> int.TryParse(x, out tryParseOut) == true)
-                        .Select(x=> int.Parse(x))
+                        .Where(x => int.TryParse(x, out tryParseOut) == true)
+                        .Select(x => int.Parse(x))
                         .ToList();
                 }
             }
@@ -52,6 +52,10 @@ namespace NASP_1_WPF
             {
                 MessageBox.Show(ex.Message);
             }
+
+            ToInsertTextBox.Visibility = Visibility.Visible;
+            AdditionalTextTextBlock.Visibility = Visibility.Visible;
+            ConfirmInsertButton.Visibility = Visibility.Visible;
         }
 
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
