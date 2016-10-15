@@ -54,13 +54,19 @@ namespace NASP_1_WPF
             {
                 MessageBox.Show(ex.Message);
             }
-
-            AVLtree = new AVLLib.AVLTree<int>(numbersFromFile[0]);
-            for (int i = 1; i < numbersFromFile.Count;i++)
+            if (AVLradioButton.IsChecked == true)
             {
-                AVLtree.Insert(numbersFromFile[i]);
+                AVLtree = new AVLLib.AVLTree<int>(numbersFromFile[0]);
+                for (int i = 1; i < numbersFromFile.Count; i++)
+                {
+                    AVLtree.Insert(numbersFromFile[i]);
+                }
             }
-
+            else
+            {
+                //TODO : rb stablo
+            }
+            treeTextBlock.Text = AVLtree.ToString();
 
             ToInsertTextBox.Visibility = Visibility.Visible;
             AdditionalTextTextBlock.Visibility = Visibility.Visible;
@@ -75,6 +81,11 @@ namespace NASP_1_WPF
         private void AVLradioButton_Checked(object sender, RoutedEventArgs e)
         {
             RBRadioButton.IsChecked = false;
+        }
+
+        private void ConfirmInsertButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
