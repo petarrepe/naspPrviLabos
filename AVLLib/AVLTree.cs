@@ -1,4 +1,6 @@
-﻿namespace AVLLib
+﻿using System;
+
+namespace AVLLib
 {
     public class AVLTree<T> where T : System.IComparable<T>
     {
@@ -19,8 +21,13 @@
 
         internal void LeftRotate(Node<T> child, Node<T> parent)
         {
-            if (child.leftChild != null) parent.rightChild = child.leftChild;
+            if (child.leftChild != null)
+            {
+                parent.rightChild = child.leftChild;
+            }
+
             child.leftChild = parent;
+
         }
 
         public void Insert(T data)
@@ -28,33 +35,45 @@
             int balanceFactor = 0;
             int previousBalanceFactor = 0;
             Node<T> parentNode = FindParentOfNewNode(data);
-            //pronalazak
+            Node<T> insertedNode;
+            Node<T> currentlyVisitedNode = parentNode;
+
             if (parentNode == null) return;
 
-            if (data.CompareTo(parentNode.data) > 0) parentNode.rightChild = new Node<T>(data);
-            else parentNode.leftChild = new Node<T>(data);
+            if (data.CompareTo(parentNode.data) > 0)
+            {
+                parentNode.rightChild = new Node<T>(data);
+                insertedNode = parentNode.rightChild;
+            }
+            else
+            {
+                parentNode.leftChild = new Node<T>(data);
+                insertedNode = parentNode.leftChild;
+            }
 
-            //balansiranje
+            //balansiranje, do ovdje sve dobro, dogadja se stackoverflow kod rotacija!
             do
             {
                 previousBalanceFactor = balanceFactor;
-                balanceFactor = CalculateHeight(parentNode.rightChild) - CalculateHeight(parentNode.leftChild);
+                balanceFactor = CalculateHeight(currentlyVisitedNode.rightChild) - CalculateHeight(currentlyVisitedNode.leftChild);
                 if (balanceFactor == 0) return; //rani uvjet izlaska
 
-                parentNode = FindParentOfNode(parentNode);
-            }
-            while ((balanceFactor != 2 || balanceFactor != -2) && parentNode != null);
 
-            if (parentNode == null) return; //stablo je trenutno balansirano
+                currentlyVisitedNode = FindParentOfNode(currentlyVisitedNode);
+            }
+            while ((balanceFactor != 2 || balanceFactor != -2) && currentlyVisitedNode != null);
 
             if (balanceFactor == 2 && previousBalanceFactor == 1)
             {
-                LeftRotate(parentNode.rightChild, parentNode);
+                LeftRotate(insertedNode, parentNode);
             }
             else if (balanceFactor == -2 && previousBalanceFactor == -1)
             {
                 RightRotate(parentNode.leftChild, parentNode);
             }
+
+            if (parentNode == null) return; //stablo je trenutno balansirano
+
             //else if (balanceFactor == -2 && previousBalanceFactor == 1)
             //{
             //    LeftRotate(parentNode.rightChild, parentNode);
