@@ -5,16 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NASP_1_WPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="AVL Tree" Height="350" Width="525" WindowState="Maximized">
     <Grid>
-        <Button x:Name="FilePickerButton" Content="Odaberi datoteku" HorizontalAlignment="Left" Margin="5,140,0,0" VerticalAlignment="Top" Width="Auto" Click="FilePickerButton_Click"/>
-        <TextBlock x:Name="PathToFiletextBlock" HorizontalAlignment="Left" Margin="10,110,0,0" TextWrapping="Wrap" Text="Lokacija datoteke" VerticalAlignment="Top"/>
-        <RadioButton x:Name="AVLradioButton" Content="AVL tree" HorizontalAlignment="Left" Margin="10,33,0,0" VerticalAlignment="Top" Checked="AVLradioButton_Checked"/>
-        <RadioButton x:Name="RBRadioButton" Content="Red black tree" HorizontalAlignment="Left" Margin="10,53,0,0" VerticalAlignment="Top" Checked="RadioButton_Checked"/>
-        <TextBox x:Name="ToInsertTextBox" HorizontalAlignment="Left" Height="23" Margin="15,245,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Visibility="Hidden"/>
-        <TextBlock x:Name="AdditionalTextTextBlock" HorizontalAlignment="Left" Margin="15,224,0,0" TextWrapping="Wrap" Text="Unesite dodatne brojeve:" VerticalAlignment="Top" Visibility="Hidden"/>
-        <Button x:Name="ConfirmInsertButton" Content="Potvrdi" HorizontalAlignment="Left" Margin="15,275,0,0" VerticalAlignment="Top" Width="75" Visibility="Hidden" Click="ConfirmInsertButton_Click"/>
-        <TextBlock x:Name="treeTextBlock" HorizontalAlignment="Left" Margin="280,33,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="Auto" Width="Auto" FontSize="16"/>
+        <Button x:Name="FilePickerButton" Content="Odaberi datoteku" HorizontalAlignment="Left" Margin="10,100,0,0" VerticalAlignment="Top" Width="Auto" Click="FilePickerButton_Click"/>
+        <TextBlock x:Name="PathToFiletextBlock" HorizontalAlignment="Left" Margin="10,70,0,0" TextWrapping="Wrap" Text="Lokacija datoteke" VerticalAlignment="Top"/>
+        <TextBox x:Name="ToInsertTextBox" HorizontalAlignment="Left" Height="23" Margin="15,185,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <TextBlock x:Name="AdditionalTextTextBlock" HorizontalAlignment="Left" Margin="15,168, 0,0" TextWrapping="Wrap" Text="Unesite dodatne brojeve:" VerticalAlignment="Top" />
+        <Button x:Name="ConfirmInsertButton" Content="Potvrdi" HorizontalAlignment="Left" Margin="15,215,0,0" VerticalAlignment="Top" Width="75" Click="ConfirmInsertButton_Click"/>
+
+        <TreeView x:Name="treeView" HorizontalAlignment="Center" Margin="0,70,0,0" VerticalAlignment="Top" Height="Auto" Width="Auto" FontSize="16"/>
 
     </Grid>
 </Window>

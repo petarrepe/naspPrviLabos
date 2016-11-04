@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using System.Linq;
-
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace NASP_1_WPF
 {
@@ -18,7 +20,6 @@ namespace NASP_1_WPF
         public MainWindow()
         {
             InitializeComponent();
-            AVLradioButton.IsChecked = true;
         }
 
         private void FilePickerButton_Click(object sender, RoutedEventArgs e)
@@ -54,37 +55,62 @@ namespace NASP_1_WPF
             {
                 MessageBox.Show(ex.Message);
             }
-            if (AVLradioButton.IsChecked == true)
+
+            AVLtree = AVLtree ?? new AVLLib.AVLTree<int>(numbersFromFile[0]);
+
+            for (int i = 0; i < numbersFromFile.Count; i++)
             {
-                AVLtree = new AVLLib.AVLTree<int>(numbersFromFile[0]);
-                for (int i = 1; i < numbersFromFile.Count; i++)
-                {
-                    AVLtree.Insert(numbersFromFile[i]);
-                }
+                AVLtree.Insert(numbersFromFile[i]);
             }
-            else
+            DisplayTree();
+        }
+
+        private void DisplayTree()
+        {
+            treeView.Items.Clear(); //zbog ovoga ce biti dosta sporo
+            var TreeAsListRepresentation = AVLtree.ToList();
+
+
+            while (true)
             {
-                //TODO : ovo maknuti
+                TreeViewItem item = new TreeViewItem();
+                item.Header = "Outfit";
+                item.ItemsSource = new string[] { "Pants", "Shirt", "Hat", "Socks" };
+                treeView.Items.Add(item);
             }
-            treeTextBlock.Text = AVLtree.ToString();
 
-            ToInsertTextBox.Visibility = Visibility.Visible;
-            AdditionalTextTextBlock.Visibility = Visibility.Visible;
-            ConfirmInsertButton.Visibility = Visibility.Visible;
+
+
         }
 
-        private void RadioButton_Checked(object sender, RoutedEventArgs e)
-        {
-            AVLradioButton.IsChecked = false;
-        }
-
-        private void AVLradioButton_Checked(object sender, RoutedEventArgs e)
-        {
-            RBRadioButton.IsChecked = false;
-        }
 
         private void ConfirmInsertButton_Click(object sender, RoutedEventArgs e)
         {
+            int tryParseOut;
+            List<int> numbersFromTextBox = new List<int>();
+
+            try
+            {
+                numbersFromTextBox = ToInsertTextBox.Text.Split(',', ' ')
+                          .Where(x => int.TryParse(x, out tryParseOut) == true)
+                          .Select(x => int.Parse(x))
+                          .ToList();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            if (numbersFromTextBox.Count == 0) return;
+
+            AVLtree = AVLtree ?? new AVLLib.AVLTree<int>(numbersFromTextBox[0]);
+
+            for (int i = 0; i < numbersFromTextBox.Count; i++)
+            {
+                AVLtree.Insert(numbersFromTextBox[i]);
+            }
+
+            ToInsertTextBox.Text = "";
+            DisplayTree();
 
         }
     }

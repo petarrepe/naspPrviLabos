@@ -1,18 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace AVLLib
 {
     public class AVLTree<T> where T : System.IComparable<T>
     {
-        private Node<T> root = new Node<T>();
-        System.Text.StringBuilder sb = new System.Text.StringBuilder();
-
+        internal Node<T> root = new Node<T>();
+       
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data">First item in a tree (root)</param>
         public AVLTree(T data)
         {
             root.data = data;
         }
 
-        //parent = root , child = pivot
         internal void RightRotate(ref Node<T> parent)
         {
             Node<T> grandParent = FindParentOfNode(parent);
@@ -26,7 +29,6 @@ namespace AVLLib
                 this.root = child;
             }
 
-
             else if (grandParent != null)
             {
                 if (grandParent.data.CompareTo(parent.data) > 0)
@@ -38,7 +40,6 @@ namespace AVLLib
                     grandParent.rightChild = child;
                 }
             }
-
         }
 
         internal void LeftRotate(ref Node<T> parent)
@@ -49,12 +50,10 @@ namespace AVLLib
             parent.rightChild = child.leftChild;
             child.leftChild = parent;
 
-
             if (parent == this.root)
             {
                 this.root = child;
             }
-
 
             else if (grandParent != null)
             {
@@ -67,8 +66,6 @@ namespace AVLLib
                     grandParent.rightChild = child;
                 }
             }
-
-
         }
 
 
@@ -146,7 +143,6 @@ namespace AVLLib
                 }
                 else return null; //već je upisan taj element
             }
-
             return parentNode;
         }
 
@@ -188,30 +184,32 @@ namespace AVLLib
             }
         }
 
-        public override string ToString()
-        {        
+        public List<List<Node<T>>> ToList()
+        {
+            List<List<Node<T>>> listOfAllNodes = new List<List<Node<T>>>();
             int heightOfATree = CalculateHeight(root);
 
             for (int i = 0; i < heightOfATree; i++)
             {
-                //sb.Append(' ', heightOfATree - i);
-                //PrintAllNodesOnLevel(root, i);
-                sb.AppendLine();
+
+                listOfAllNodes.Add(getAllNodesOnLevel(this.root, i));
             }
 
-            return sb.ToString();
+            return listOfAllNodes;
         }
 
-        [Obsolete]
-        private void PrintAllNodesOnLevel(Node<T> root, int level)
+        private List<Node<T>> getAllNodesOnLevel(Node<T> root, int level)
         {
-            if (root == null) return;
-            if (level == 1) sb.Append( root.data.ToString().PadLeft(5).PadRight(5));
+            List<Node<T>> nodesAtGivenLevel = new List<AVLLib.Node<T>>();
+            if (root == null) return null;
+            if (level == 1)  nodesAtGivenLevel.Add(root);
             else if (level > 1)
             {
-                PrintAllNodesOnLevel(root.leftChild, level - 1);
-                PrintAllNodesOnLevel(root.rightChild, level - 1);
+                getAllNodesOnLevel(root.leftChild, level - 1);
+                getAllNodesOnLevel(root.rightChild, level - 1);
             }
+
+            return nodesAtGivenLevel;
         }
 
     }
