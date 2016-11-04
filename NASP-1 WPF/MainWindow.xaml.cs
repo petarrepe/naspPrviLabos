@@ -64,7 +64,7 @@ namespace NASP_1_WPF
             }
             else
             {
-                //TODO : rb stablo
+                //TODO : ovo maknuti
             }
             treeTextBlock.Text = AVLtree.ToString();
 

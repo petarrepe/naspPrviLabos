@@ -11,10 +11,10 @@
         }
 
         internal T data { get; set; }
-        
 
-        public Node<T> leftChild { get; set; }
-        public Node<T> rightChild { get; set; }
+
+        public Node<T> leftChild;
+        public Node<T> rightChild;
     }
 
 }

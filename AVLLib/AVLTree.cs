@@ -13,76 +13,116 @@ namespace AVLLib
         }
 
         //parent = root , child = pivot
-        internal void RightRotate(Node<T> child, Node<T> parent)
+        internal void RightRotate(ref Node<T> parent)
         {
-            if (child.rightChild != null) parent.leftChild = child.rightChild;
-            child.rightChild = parent;
-        }
+            Node<T> grandParent = FindParentOfNode(parent);
+            Node<T> child = parent.leftChild;
 
-        internal void LeftRotate(Node<T> child, Node<T> parent)
-        {
-            if (child.leftChild != null)
+            parent.leftChild = child.rightChild;
+            child.rightChild = parent;          
+
+            if (parent == this.root)
             {
-                parent.rightChild = child.leftChild;
+                this.root = child;
             }
 
-            child.leftChild = parent;
+
+            else if (grandParent != null)
+            {
+                if (grandParent.data.CompareTo(parent.data) > 0)
+                {
+                    grandParent.leftChild = child;
+                }
+                else
+                {
+                    grandParent.rightChild = child;
+                }
+            }
 
         }
+
+        internal void LeftRotate(ref Node<T> parent)
+        {
+            Node<T> grandParent = FindParentOfNode(parent);
+            Node<T> child = parent.rightChild;
+
+            parent.rightChild = child.leftChild;
+            child.leftChild = parent;
+
+
+            if (parent == this.root)
+            {
+                this.root = child;
+            }
+
+
+            else if (grandParent != null)
+            {
+                if (grandParent.data.CompareTo(parent.data) > 0)
+                {
+                    grandParent.leftChild = child;
+                }
+                else
+                {
+                    grandParent.rightChild = child;
+                }
+            }
+
+
+        }
+
 
         public void Insert(T data)
         {
             int balanceFactor = 0;
             int previousBalanceFactor = 0;
             Node<T> parentNode = FindParentOfNewNode(data);
-            Node<T> insertedNode;
+            Node<T> grandParent = FindParentOfNode(parentNode);
+            Node<T> previouslyVisitedNode = new Node<T>();
             Node<T> currentlyVisitedNode = parentNode;
 
-            if (parentNode == null) return;
+            if (parentNode == null) return; //duplikat
 
             if (data.CompareTo(parentNode.data) > 0)
             {
                 parentNode.rightChild = new Node<T>(data);
-                insertedNode = parentNode.rightChild;
             }
             else
             {
                 parentNode.leftChild = new Node<T>(data);
-                insertedNode = parentNode.leftChild;
             }
 
-            //balansiranje, do ovdje sve dobro, dogadja se stackoverflow kod rotacija!
             do
             {
                 previousBalanceFactor = balanceFactor;
                 balanceFactor = CalculateHeight(currentlyVisitedNode.rightChild) - CalculateHeight(currentlyVisitedNode.leftChild);
                 if (balanceFactor == 0) return; //rani uvjet izlaska
 
-
+                previouslyVisitedNode = currentlyVisitedNode;
                 currentlyVisitedNode = FindParentOfNode(currentlyVisitedNode);
             }
-            while ((balanceFactor != 2 || balanceFactor != -2) && currentlyVisitedNode != null);
+            while ((balanceFactor != 2 && balanceFactor != -2)  &&  currentlyVisitedNode != null);
 
-            if (balanceFactor == 2 && previousBalanceFactor == 1)
+            if (balanceFactor > 1 && previousBalanceFactor == 1)
             {
-                LeftRotate(insertedNode, parentNode);
+                LeftRotate( ref previouslyVisitedNode);
             }
-            else if (balanceFactor == -2 && previousBalanceFactor == -1)
+            else if (balanceFactor < -1 && previousBalanceFactor == -1)
             {
-                RightRotate(parentNode.leftChild, parentNode);
+                RightRotate(ref previouslyVisitedNode);
             }
 
-            if (parentNode == null) return; //stablo je trenutno balansirano
+            //if (parentNode == null) return; //stablo je trenutno balansirano //zašto je ovo ovdje?
 
-            //else if (balanceFactor == -2 && previousBalanceFactor == 1)
-            //{
-            //    LeftRotate(parentNode.rightChild, parentNode);
-            //    RightRotate(parentNode.leftChild, parentNode);
-            //}
-            else if (balanceFactor == 2 && previousBalanceFactor == -1)
+            else if (balanceFactor < -1 && previousBalanceFactor == 1)
             {
-                RightRotate(parentNode.rightChild.leftChild, parentNode.rightChild);
-                LeftRotate(parentNode.rightChild, parentNode);
+                LeftRotate(ref previouslyVisitedNode.leftChild);
+                RightRotate(ref previouslyVisitedNode);
+            }
+            else if (balanceFactor > 1 && previousBalanceFactor == -1)
+            {
+                RightRotate(ref previouslyVisitedNode.rightChild);
+                LeftRotate(ref previouslyVisitedNode);
             }
 
         }
@@ -114,6 +154,8 @@ namespace AVLLib
         {
             Node<T> parentNode = null;
             Node<T> nextNode = root;
+
+            if (node == null) return null;
 
             while (nextNode != null)
             {
@@ -153,12 +195,14 @@ namespace AVLLib
             for (int i = 0; i < heightOfATree; i++)
             {
                 //sb.Append(' ', heightOfATree - i);
-                PrintAllNodesOnLevel(root, i);
+                //PrintAllNodesOnLevel(root, i);
                 sb.AppendLine();
             }
 
             return sb.ToString();
         }
+
+        [Obsolete]
         private void PrintAllNodesOnLevel(Node<T> root, int level)
         {
             if (root == null) return;
