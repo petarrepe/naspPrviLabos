@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace AVLLib
 {
     public class AVLTree<T> where T : System.IComparable<T>
     {
         internal Node<T> root = new Node<T>();
-       
-        /// <summary>
-        /// 
-        /// </summary>
+
         /// <param name="data">First item in a tree (root)</param>
         public AVLTree(T data)
         {
@@ -22,7 +20,7 @@ namespace AVLLib
             Node<T> child = parent.leftChild;
 
             parent.leftChild = child.rightChild;
-            child.rightChild = parent;          
+            child.rightChild = parent;
 
             if (parent == this.root)
             {
@@ -98,11 +96,11 @@ namespace AVLLib
                 previouslyVisitedNode = currentlyVisitedNode;
                 currentlyVisitedNode = FindParentOfNode(currentlyVisitedNode);
             }
-            while ((balanceFactor != 2 && balanceFactor != -2)  &&  currentlyVisitedNode != null);
+            while ((balanceFactor != 2 && balanceFactor != -2) && currentlyVisitedNode != null);
 
             if (balanceFactor > 1 && previousBalanceFactor == 1)
             {
-                LeftRotate( ref previouslyVisitedNode);
+                LeftRotate(ref previouslyVisitedNode);
             }
             else if (balanceFactor < -1 && previousBalanceFactor == -1)
             {
@@ -122,6 +120,23 @@ namespace AVLLib
                 LeftRotate(ref previouslyVisitedNode);
             }
 
+        }
+
+        public string IndorderTraversal()
+        {
+            StringBuilder sb = new StringBuilder("Inorder ispis: ");
+
+            Traverse(root, ref sb);
+
+            return sb.ToString().Remove(sb.Length-2,2);
+        }
+
+        private void Traverse(Node<T> node,ref StringBuilder sb)
+        {
+            if (node == null) return;
+            Traverse(node.leftChild, ref sb);
+            sb.Append(node.data+", ");
+            Traverse(node.rightChild, ref sb);
         }
 
         private Node<T> FindParentOfNewNode(T data)
@@ -191,7 +206,6 @@ namespace AVLLib
 
             for (int i = 0; i < heightOfATree; i++)
             {
-
                 listOfAllNodes.Add(getAllNodesOnLevel(this.root, i));
             }
 
@@ -202,7 +216,7 @@ namespace AVLLib
         {
             List<Node<T>> nodesAtGivenLevel = new List<AVLLib.Node<T>>();
             if (root == null) return null;
-            if (level == 1)  nodesAtGivenLevel.Add(root);
+            if (level == 1) nodesAtGivenLevel.Add(root);
             else if (level > 1)
             {
                 getAllNodesOnLevel(root.leftChild, level - 1);
@@ -212,6 +226,19 @@ namespace AVLLib
             return nodesAtGivenLevel;
         }
 
+        public string Draw()
+        {
+            int positionOutput, widthOutput;
+            List<string> listOfStrings = TreeDrawer._recursivelyDrawTree(root, out positionOutput, out widthOutput);
+            StringBuilder sb = new StringBuilder();
+
+            foreach (var str in listOfStrings)
+            {
+                sb.AppendLine(str);
+
+            }
+            return sb.ToString();
+        }
     }
 }
 

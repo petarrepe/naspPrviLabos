@@ -13,7 +13,7 @@
         <TextBlock x:Name="AdditionalTextTextBlock" HorizontalAlignment="Left" Margin="15,168, 0,0" TextWrapping="Wrap" Text="Unesite dodatne brojeve:" VerticalAlignment="Top" />
         <Button x:Name="ConfirmInsertButton" Content="Potvrdi" HorizontalAlignment="Left" Margin="15,215,0,0" VerticalAlignment="Top" Width="75" Click="ConfirmInsertButton_Click"/>
 
-        <TreeView x:Name="treeView" HorizontalAlignment="Center" Margin="0,70,0,0" VerticalAlignment="Top" Height="Auto" Width="Auto" FontSize="16"/>
+        <TextBlock x:Name="treeTB" HorizontalAlignment="Center" Margin="0,70,0,0" VerticalAlignment="Top" Height="Auto" Width="Auto" FontSize="16"/>
 
     </Grid>
 </Window>

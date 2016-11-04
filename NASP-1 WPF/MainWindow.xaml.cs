@@ -67,20 +67,7 @@ namespace NASP_1_WPF
 
         private void DisplayTree()
         {
-            treeView.Items.Clear(); //zbog ovoga ce biti dosta sporo
-            var TreeAsListRepresentation = AVLtree.ToList();
-
-
-            while (true)
-            {
-                TreeViewItem item = new TreeViewItem();
-                item.Header = "Outfit";
-                item.ItemsSource = new string[] { "Pants", "Shirt", "Hat", "Socks" };
-                treeView.Items.Add(item);
-            }
-
-
-
+            treeTB.Text = AVLtree.IndorderTraversal() + "\n" + AVLtree.Draw();
         }
 
 
